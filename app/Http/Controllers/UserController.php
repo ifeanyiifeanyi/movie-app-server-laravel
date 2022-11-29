@@ -15,7 +15,7 @@ class UserController extends Controller
 
     $token = Str::random(64);
 
-    $userid = rand(1111111111, 9999999999);
+    $userid = rand(1111, 9999);
     // set user account to 0 none active account
     $status = '0';
 

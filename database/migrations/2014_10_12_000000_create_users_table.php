@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -19,7 +22,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->enum('status', ['0', '1'])->default('0');
+            $table->tinyInteger('status')->default('0');
             $table->tinyInteger('role_as')->default('0');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -30,6 +33,18 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::table('users')->insert
+        ([
+            'userid' => rand(1111, 9999),
+            'username' => 'Admin',
+            'name' => 'Admin User',
+            'email' => 'admin@admin.com',
+            'status' => 1,
+            'role_as' => 1,
+            'password' => Hash::make('12345678'),
+            'created_at' => Carbon::now()
+        ]);
+
     }
 
     /**

@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     //vidoe genre manager
     Route::get('/genre', [GenreController::class, 'index'])->name('genre');
+    Route::post('/genre', [GenreController::class, 'create'])->name('genre.create');
+    Route::get('/genre/{id}', [GenreController::class, 'edit'])->name('genre.edit');
 
 
 

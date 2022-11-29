@@ -17,16 +17,19 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->integer("category_id");
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('genres_id')->constrained('genres');
             $table->tinyText("short_description");
             $table->text("long_description")->nullable();
             $table->string("length");
             $table->tinyInteger("status");
             $table->string("video");
             $table->string("thumbnail")->nullable();
-            $table->integer("rating")->nullable();
+            $table->smallInteger('rating_id');
+            $table->foreignId('parent_control_id')->constrained('parent_controls');
             $table->softDeletes();
             $table->timestamps();
+
         });
     }
     /**

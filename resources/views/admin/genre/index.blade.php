@@ -4,6 +4,8 @@
 @section('title', 'Genre')
 @section('adminlayout')
 
+<
+
 <div class="container-fluid py-4" style="height:100vh">
 
     <div class="row mt-4">
@@ -13,23 +15,25 @@
                     @if(session('status'))
                     <div class="alert alert-success">{{session('status')}}</div>
                     @endif
-                    <div class="d-flex justify-content-between">
-
-                        <h6 class="mb-2">Genre</h6>
-
-                    </div>
+                    
                 </div>
                 <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="mb-2">Genre</h6>
+                    </div>
                     <div class="row">
+
+                        @if(!isset($genre->id))
+                        {{-- create genre form --}}
                         <div class="col-md-6">
-                            <form role="form" method="POST" action="">
+                            <form role="form" method="POST" action="{{ route('genre.create') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <input type="text"
                                                 class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                                placeholder="Category Name" name="name" aria-label="text"
+                                                placeholder="Genre Name" name="name" aria-label="text"
                                                 value="{{ old('name') }}">
                                             @error('name')
                                             <div class="text text-danger">{{ $message }}</div>
@@ -40,7 +44,7 @@
                                         <div class="mb-3">
                                             <input type="text"
                                                 class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                                placeholder="Category Slug" name="slug" aria-label="text"
+                                                placeholder="Genre Slug" name="slug" aria-label="text"
                                                 value="{{ old('slug') }}">
                                             @error('slug')
                                             <div class="text text-danger">{{ $message }}</div>
@@ -52,7 +56,7 @@
                                 <div class="mb-3">
                                     <textarea
                                         class="form-control form-control-lg @error('description') is-invalid @enderror"
-                                        placeholder="Category Description"
+                                        placeholder="Genre Description"
                                         name="description">{{ old('description') }}</textarea>
                                     @error('description')
                                     <div class="text text-danger">{{ $message }}</div>
@@ -65,35 +69,91 @@
                                 </div>
                             </form>
                         </div>
+                        @else
+                        {{-- update genre form --}}
+                        <div class="col-md-6">
+                            <form role="form" method="POST" action="">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input type="text"
+                                                class="form-control form-control-lg @error('name') is-invalid @enderror"
+                                                placeholder="Genre Name" name="name" aria-label="text"
+                                                value="{{ old('name') }}">
+                                            @error('name')
+                                            <div class="text text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input type="text"
+                                                class="form-control form-control-lg @error('name') is-invalid @enderror"
+                                                placeholder="Genre Slug" name="slug" aria-label="text"
+                                                value="{{ old('slug') }}">
+                                            @error('slug')
+                                            <div class="text text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="mb-3">
+                                    <textarea
+                                        class="form-control form-control-lg @error('description') is-invalid @enderror"
+                                        placeholder="Genre Description"
+                                        name="description">{{ old('description') }}</textarea>
+                                    @error('description')
+                                    <div class="text text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit"
+                                        class="btn btn-lg btn-warning btn-lg w-100 mt-4 mb-0">Update</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        @endif
+
+                        {{-- display all genre --}}
                         <div class="col-md-6">
                             <div class="table-responsive p-3">
-                                <table class="table table-hover" width="100%">
-                                    <tr>
-                                        <th>s/n</th>
-                                        <th>Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>name</td>
-                                        <td>action</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>name</td>
-                                        <td>action</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>name</td>
-                                        <td>action</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>name</td>
-                                        <td>action</td>
-                                    </tr>
-                                </table>
+                                @if($genres)
+                                    @foreach ($genres as $genre)
+                                    <table class="table table-hover" width="100%">
+                                        <tr>
+                                            <th>s/n</th>
+                                            <th>Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{{ ucwords($genre->name) }}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <a href="{{ route('genre.edit', $genre->id) }}" class="btn btn-outline-info">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        delete
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                    </table>
+                                        
+                                    @endforeach
+
+                                @else
+
+                                    <p>No Genre Available</p>
+                                @endif
                             </div>
                         </div>
                     </div>
