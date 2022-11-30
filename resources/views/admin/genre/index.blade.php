@@ -79,8 +79,8 @@
                                         <div class="mb-3">
                                             <input type="text"
                                                 class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                                placeholder="Genre Name" name="name" aria-label="text"
-                                                value="{{ old('name') }}">
+                                                 name="name" aria-label="text"
+                                                value="{{ $genre->name }}">
                                             @error('name')
                                             <div class="text text-danger">{{ $message }}</div>
                                             @enderror
@@ -89,9 +89,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <input type="text"
-                                                class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                                placeholder="Genre Slug" name="slug" aria-label="text"
-                                                value="{{ old('slug') }}">
+                                                class="form-control form-control-lg @error('name') is-invalid @enderror" name="slug" aria-label="text"
+                                                value="{{ $genre->slug }}">
                                             @error('slug')
                                             <div class="text text-danger">{{ $message }}</div>
                                             @enderror
@@ -103,7 +102,7 @@
                                     <textarea
                                         class="form-control form-control-lg @error('description') is-invalid @enderror"
                                         placeholder="Genre Description"
-                                        name="description">{{ old('description') }}</textarea>
+                                        name="description">{{ $genre->description }}</textarea>
                                     @error('description')
                                     <div class="text text-danger">{{ $message }}</div>
                                     @enderror
@@ -111,7 +110,7 @@
 
                                 <div class="text-center">
                                     <button type="submit"
-                                        class="btn btn-lg btn-warning btn-lg w-100 mt-4 mb-0">Update</button>
+                                        class="btn btn-lg bg-gradient-warning btn-lg w-100 mt-4 mb-0">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -122,15 +121,16 @@
                         <div class="col-md-6">
                             <div class="table-responsive p-3">
                                 @if($genres)
-                                    @foreach ($genres as $genre)
+                                   
                                     <table class="table table-hover" width="100%">
                                         <tr>
                                             <th>s/n</th>
                                             <th>Name</th>
                                             <th>Action</th>
                                         </tr>
+                                        @foreach ($genres as $genre)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ ucwords($genre->name) }}</td>
                                             <td>
                                                 <div class="row">
@@ -140,15 +140,21 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        delete
+                                                        <form id="delete" action="{{ route('genre.destroy', $genre->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                         
                                     </table>
                                         
-                                    @endforeach
+                                    
 
                                 @else
 

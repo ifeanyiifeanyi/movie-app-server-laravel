@@ -75,6 +75,8 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::get('/genre', [GenreController::class, 'index'])->name('genre');
     Route::post('/genre', [GenreController::class, 'create'])->name('genre.create');
     Route::get('/genre/{id}', [GenreController::class, 'edit'])->name('genre.edit');
+    Route::post('/genre/{id}', [GenreController::class, 'update'])->name('genre.update');
+    Route::delete('/genre/{id}', [GenreController::class, 'destroy'])->name('genre.destroy');
 
 
 
@@ -83,7 +85,11 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     // video routes
     Route::get('/videos', [VideoController::class, 'index'])->name('videos') ;
-    Route::get('/create/videos', [VideoController::class, 'create'])->name('create.videos') ;
+    Route::get('/videos/create', [VideoController::class, 'create'])->name('create.videos') ;
+    Route::post('/videos/store', [VideoController::class, 'store'])->name('store.videos') ;
+
+
+    // Route::class
 });
 
 // User payment route

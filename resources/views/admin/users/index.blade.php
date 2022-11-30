@@ -45,21 +45,21 @@
                                     <td>{{ ucwords($user->username) }}</td>
                                     <td>
                                         @if($user->status)
-                                        <span class="badge bg-success">Active</span>
+                                        <span class="badge badge-sm bg-gradient-success">Active</span>
                                         @else
-                                        <span class="badge bg-secondary">Inactive</span>
+                                        <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if($user->role_as)
                                         <p class="badge bg-success">Admin</p>
                                         <p>
-                                            <a href="{{ route('admin.revoke', $user->id) }}" class="badge bg-dark">Revoke</a>
+                                            <a href="{{ route('admin.revoke', $user->id) }}" class="badge badge-sm bg-gradient-secondary">Revoke</a>
                                         </p>
                                         @else
-                                        <p class="badge bg-secondary">Suscriber</p>
+                                        <p class="badge badge-sm bg-gradient-secondary">Suscriber</p>
                                         <p>
-                                            <a href="{{ route('make.admin', $user->id) }}" class="badge bg-success">Grant</a>
+                                            <a href="{{ route('make.admin', $user->id) }}" class="badge badge-sm bg-gradient-success">Grant</a>
                                         </p>
                                         @endif
                                     </td>
