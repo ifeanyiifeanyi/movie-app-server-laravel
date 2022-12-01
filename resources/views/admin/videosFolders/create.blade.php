@@ -111,7 +111,14 @@
                                     <select
                                         class="form-control form-control-lg @error('rating_id') is-invalid @enderror"
                                         placeholder="Rating" name="rating_id">
-                                        <option value="">Video Rating</option>
+                                        <option value="">Select Video Rating</option>
+                                        @if ($ratings)
+                                            @foreach ($ratings as $rating)
+                                                <option value="{{ $rating->id }}">{{ $rating->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="">No Rating Available</option>
+                                        @endif
                                     </select>
                                     @error('rating_id')
                                     <div class="text text-danger">{{ $message }}</div>
@@ -124,6 +131,13 @@
                                         class="form-control form-control-lg @error('parent_control_id') is-invalid @enderror"
                                         placeholder="Parential Control" name="parent_control_id">
                                         <option value="">Parental Control</option>
+                                        @if ($parentControls)
+                                            @foreach ($parentControls as $pc)
+                                                <option value="{{ $pc->id }}">{{ $pc->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="">No parental Control</option>
+                                        @endif
                                     </select>
                                     @error('parent_control_id')
                                     <div class="text text-danger">{{ $message }}</div>
@@ -251,7 +265,7 @@
                     });      
                     return false; 
                 }
-                if (res.status === 200) {
+                if (res.success) {
                     $('#add_videos').trigger("reset");
                     $('#btn1').html('Save');
                     $('#btn1').attr("disabled", false);
@@ -265,7 +279,7 @@
                         $('#btn1').html('Save');
                         $('#btn1').attr("disabled", false);
                         window.location.href="{{ route('videos') }}";
-                    }, 50000);
+                    }, 5000);
                 }
                
             },

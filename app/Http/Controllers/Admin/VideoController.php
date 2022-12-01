@@ -2,24 +2,38 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Genre;
+use App\Models\rating;
+use App\Models\Videos;
 use App\Models\categories;
 use Illuminate\Http\Request;
+use App\Models\ParentControl;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Genre;
-use App\Models\Videos;
 use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
 {
     public function index()
     {
-       return view('admin.videosFolders.index');
+        // $videos = Videos::latest()->simplePaginate(2);
+        $videos = DB::table('videos')
+                    ->join('categories', 'videos.category_id', '=', 'categories.id')
+                    ->join('genres', 'videos.genres_id', '=', 'genres.id')
+                    ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
+                    ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
+                    ->select('videos.*','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')->simplePaginate(2);
+                    
+                    ;
+       return view('admin.videosFolders.index', compact('videos'));
     }
 
     public function create(){
         $categories = categories::all();
         $genre = Genre::all();
-        return view("admin.videosFolders.create", compact('categories','genre'));
+        $ratings = rating::all();
+        $parentControls = ParentControl::all();
+        return view("admin.videosFolders.create", compact('categories','genre', 'ratings', 'parentControls'));
     }
 
     public function store(Request $request)
@@ -68,12 +82,12 @@ class VideoController extends Controller
         $vidoeUploads->slug     = $request->slug;
         $vidoeUploads->category_id = $request->category_id;
         $vidoeUploads->length      = $request->length;
-        $vidoeUploads->genre_id          = $request->genre_id;
+        $vidoeUploads->genres_id          = $request->genre_id;
         $vidoeUploads->rating_id         = $request->rating_id;
         $vidoeUploads->parent_control_id = $request->parent_control_id;
         $vidoeUploads->short_description = $request->short_description;
         $vidoeUploads->long_description  = $request->long_description;
-        $vidoeUploads->status            = $request->status ? "1" : "0";
+        $vidoeUploads->status            = $request->status ? 1 : 0;
         $vidoeUploads->save();
 
        // return a response for js (success)

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Videos extends Model
 {
     use HasFactory;
+
+
+
+    // public function categories(){
+    //     return $this->belongsTo(categories::class, 'id');
+    // }
+    // public function genres(){
+    //     return $this->hasMany(Genre::class);
+    // }
 }

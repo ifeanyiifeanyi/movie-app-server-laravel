@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\GenreController;
+use App\Http\Controllers\Admin\ParentControlController;
 use App\Http\Controllers\Admin\PaymentPlansController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\VideoRatingController;
 use App\Http\Controllers\Payment\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -70,13 +72,31 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::delete('/delete/user/{id}', [UsersController::class, 'destroy'])->name('user.destroy');
 
 
-
     //vidoe genre manager
     Route::get('/genre', [GenreController::class, 'index'])->name('genre');
     Route::post('/genre', [GenreController::class, 'create'])->name('genre.create');
     Route::get('/genre/{id}', [GenreController::class, 'edit'])->name('genre.edit');
     Route::post('/genre/{id}', [GenreController::class, 'update'])->name('genre.update');
     Route::delete('/genre/{id}', [GenreController::class, 'destroy'])->name('genre.destroy');
+
+
+    // video rating manager
+    Route::controller(VideoRatingController::class)->group(function(){
+        Route::get('/video-ratings', 'index')->name('ratings');
+        Route::post('/video-ratings', 'store')->name('ratings.store');
+        Route::get('/video-ratings/{id}', 'show')->name('ratings.show');
+        Route::post('/video-ratings/{id}', 'update')->name('ratings.update');
+        Route::delete('/video-ratings/{id}', 'destroy')->name('ratings.destroy');
+    });
+
+    // video parent control manager
+    Route::controller(ParentControlController::class)->group(function(){
+        Route::get('/parent-control', 'index')->name('parentcontrol');
+        Route::post('/parent-control', 'store')->name('parentcontrol.store');
+        Route::get('/parent-control/{id}', 'show')->name('parentcontrol.show');
+        Route::post('/parent-control/{id}', 'update')->name('parentcontrol.update');
+        Route::delete('/parent-control/{id}', 'destroy')->name('parentcontrol.destroy');
+    });
 
 
 
