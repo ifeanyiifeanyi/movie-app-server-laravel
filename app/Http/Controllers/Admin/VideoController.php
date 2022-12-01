@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\ParentControl;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
@@ -95,5 +96,28 @@ class VideoController extends Controller
             'success' => true
         ]);
 
+    }
+    public function show($id)
+    {
+        $video = Videos::find($id);
+        return view('admin.videosFolders.show', compact('video'));
+    }
+    public function edit($id)
+    {
+        $video = Videos::find($id);
+        return view('admin.videosFolders.edit', compact('video'));
+    }
+
+    public function destroy($id)
+    {
+        $video = Videos::find($id);
+        if (File::exists($video->thumbnail)) {
+            File::delete($video->thumbnail);
+        }
+        if (File::exists($video->video)) {
+            File::delete($video->video);
+        }
+        $video->delete();
+        return redirect()->route("videos")->with("status", "Video Deleted");
     }
 }

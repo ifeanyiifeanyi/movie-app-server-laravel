@@ -47,7 +47,7 @@
                   <td>
                     {{ ucwords($video->title) }}
                     <br>
-                    <a title="view {{ ucwords($video->slug) }}" href="" class="badge bg-gradient-info badge-sm">
+                    <a title="view {{ ucwords($video->slug) }}" href="{{ route("show.videos", $video->id) }}" class="badge bg-gradient-info badge-sm">
                       <i class="fas fa-eye"></i>
                     </a>
                   </td>
@@ -71,12 +71,12 @@
                     <div class="row">
 
                       <div class="col-md-4">
-                        <a title="Edit" href="" class="badge bg-gradient-primary badge-sm">
+                        <a title="Edit" href="{{ route("edit.videos", $video->id) }}" class="badge bg-gradient-primary badge-sm">
                           <i class="fas fa-edit"></i>
                         </a>
                       </div>
                       <div class="col-md-4">
-                        <form id="delete" action="" method="POST">
+                        <form id="delete" action="{{ route("destory.videos", $video->id) }}" method="POST">
                           @csrf
                           @method('DELETE')
                           <button title="Delete" style="border: none" type="submit" class="badge bg-gradient-danger badge-sm"><i
