@@ -210,3 +210,15 @@ class VideoController extends Controller
         return redirect()->route("videos")->with("status", "Video status changed to Activate");
     }
 }
+
+
+#to restore
+// $flight->restore();
+
+// #to query trashed models
+// Flight::withTrashed()
+//         ->where('airline_id', 1)
+//         ->restore();
+// $flights = Flight::onlyTrashed()
+//                 ->where('airline_id', 1)
+//                 ->get();
