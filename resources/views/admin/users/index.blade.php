@@ -14,17 +14,13 @@
                     <div class="alert alert-success">{{session('status')}}</div>
                     @endif
                     <div class="d-flex justify-content-between">
-
-                        <h6 class="mb-2">All Registered Members</h6>
-                        <p style="float: right"><a class="btn btn-outline-primary" href="{{ route('register') }}"><i
-                                    class="fas fa-plus"></i> New User Account</a>
-                        </p>
+                        <h2 class="mb-2">All Registered Members</h2>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive p-5">
                         @if(count($users) > 0)
-                        <table class="table table-hover" style="width: 100%">
+                        <table id="myTable" class="table table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>s/n</th>

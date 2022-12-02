@@ -4,7 +4,8 @@
 @section('title', 'Create Video')
 @section('mystyles')
 <style>
-    .fa-cog, .l{
+    .fa-cog,
+    .l {
         font-size: 35px !important;
         color: #fff !important;
     }
@@ -20,7 +21,7 @@
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
 
-                        <h6 class="mb-2">Create Video</h6>
+                        <h2 class="mb-2">Create Video</h2>
                         <p style="float: right"><a class="btn btn-outline-primary" href="{{ route('videos') }}"><i
                                     class="fas fa-university"></i> Back To Video(s)</a></p>
                     </div>
@@ -93,12 +94,13 @@
                                         placeholder="Genre" name="genre_id">
                                         <option value="">Video Genre</option>
                                         @if ($genre)
-                                            @foreach ($genre as $genre_value)
-                                            <option value="{{ $genre_value->id }}">{{ ucwords($genre_value->name) }}</option>
-                                                
-                                            @endforeach
+                                        @foreach ($genre as $genre_value)
+                                        <option value="{{ $genre_value->id }}">{{ ucwords($genre_value->name) }}
+                                        </option>
+
+                                        @endforeach
                                         @else
-                                            <option>No genre available</option>
+                                        <option>No genre available</option>
                                         @endif
                                     </select>
                                     @error('genre_id')
@@ -113,11 +115,11 @@
                                         placeholder="Rating" name="rating_id">
                                         <option value="">Select Video Rating</option>
                                         @if ($ratings)
-                                            @foreach ($ratings as $rating)
-                                                <option value="{{ $rating->id }}">{{ $rating->name }}</option>
-                                            @endforeach
+                                        @foreach ($ratings as $rating)
+                                        <option value="{{ $rating->id }}">{{ $rating->name }}</option>
+                                        @endforeach
                                         @else
-                                            <option value="">No Rating Available</option>
+                                        <option value="">No Rating Available</option>
                                         @endif
                                     </select>
                                     @error('rating_id')
@@ -132,11 +134,11 @@
                                         placeholder="Parential Control" name="parent_control_id">
                                         <option value="">Parental Control</option>
                                         @if ($parentControls)
-                                            @foreach ($parentControls as $pc)
-                                                <option value="{{ $pc->id }}">{{ $pc->name }}</option>
-                                            @endforeach
+                                        @foreach ($parentControls as $pc)
+                                        <option value="{{ $pc->id }}">{{ $pc->name }}</option>
+                                        @endforeach
                                         @else
-                                            <option value="">No parental Control</option>
+                                        <option value="">No parental Control</option>
                                         @endif
                                     </select>
                                     @error('parent_control_id')
@@ -178,7 +180,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <textarea name="short_description"
+                                    <textarea id="editor" name="short_description"
                                         class="form-control form-control-lg @error('short_description') is-invalid @enderror"
                                         placeholder="Short Description"></textarea>
                                     @error('short_description')
@@ -188,7 +190,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <textarea name="long_description"
+                                    <textarea id="editor1" name="long_description"
                                         class="form-control form-control-lg @error('long_description') is-invalid @enderror"
                                         placeholder="Long Description"></textarea>
                                     @error('long_description')
@@ -201,9 +203,11 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input @error('status') is-invalid @enderror type="checkbox" name="status"
-                                                id="status"> <label for="status">Status</label>
+                                        <div class="mb-3 form-check form-switch">
+                                            <input @error('status') is-invalid @enderror class="form-check-input"
+                                                type="checkbox" id="flexSwitchCheckDefault" name="status"> <label
+                                                class="form-check-label"
+                                                for="flexSwitchCheckDefault"><b>Status</b></label>
                                             @error('status')
                                             <div class="text text-danger">{{ $message }}</div>
                                             @enderror
@@ -215,8 +219,8 @@
 
 
                         <div class="text-center">
-                           
-                            <button id="btn1" type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Save
+
+                            <button id="btn1" type="submit" class="btn btn-lg bg-gradient-info  w-100 mt-4 mb-0">Save
                             </button>
 
 

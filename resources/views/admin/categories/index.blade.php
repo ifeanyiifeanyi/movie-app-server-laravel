@@ -15,7 +15,7 @@
                     @endif
                     <div class="d-flex justify-content-between">
                       
-                        <h6 class="mb-2">Movie Categories</h6>
+                        <h2 class="mb-2">Movie Categories</h2>
                         <p style="float: right"><a class="btn btn-outline-primary" href="{{ route('category.create') }}"><i class="fas fa-plus"></i> New Category</a></p>
                     </div>
                 </div>

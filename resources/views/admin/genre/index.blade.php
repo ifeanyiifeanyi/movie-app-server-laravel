@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Genre</h6>
+                        <h2 class="mb-2">Genre</h2>
                     </div>
                     <div class="row">
 
@@ -54,7 +54,7 @@
 
                                 </div>
                                 <div class="mb-3">
-                                    <textarea
+                                    <textarea id="editor1"
                                         class="form-control form-control-lg @error('description') is-invalid @enderror"
                                         placeholder="Genre Description"
                                         name="description">{{ old('description') }}</textarea>
@@ -99,7 +99,7 @@
 
                                 </div>
                                 <div class="mb-3">
-                                    <textarea
+                                    <textarea id="editor1"
                                         class="form-control form-control-lg @error('description') is-invalid @enderror"
                                         placeholder="Genre Description"
                                         name="description">{{ $genre->description }}</textarea>

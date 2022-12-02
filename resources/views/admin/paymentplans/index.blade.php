@@ -15,7 +15,7 @@
                     @endif
                     <div class="d-flex justify-content-between">
 
-                        <h6 class="mb-2">Payment Plans</h6>
+                        <h2 class="mb-2">Payment Plans</h2>
                         <p style="float: right"><a class="btn btn-outline-primary" href="{{ route("payment.create") }}"><i class="fas fa-plus"></i>
                                 New Plan</a></p>
                     </div>
@@ -24,7 +24,7 @@
                     <div class="col-md-7 mt-4">
                         <div class="card">
                             <div class="card-header pb-0 px-3">
-                                <h6 class="mb-0">Plan Information(s)</h6>
+                                <h3 class="mb-0">Plan Information(s)</h3>
                             </div>
                             <div class="card-body pt-4 p-3">
                                 @if(count($allplans))

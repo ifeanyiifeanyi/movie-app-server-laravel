@@ -12,7 +12,7 @@
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
                        
-                        <h6 class="mb-2">Create Payment Plans</h6>
+                        <h2 class="mb-2">Create Payment Plans</h2>
                         <p style="float: right"><a class="btn btn-outline-primary"
                                 href="{{ route('payment.plan') }}"><i class="fas fa-university"></i> Back To
                                 Payment plans </a></p>

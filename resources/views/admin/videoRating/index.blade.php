@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Video Ratings</h6>
+                        <h2 class="mb-2">Video Ratings</h2>
                     </div>
                     <div class="row">
 

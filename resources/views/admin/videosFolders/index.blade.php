@@ -3,7 +3,7 @@
 
 @section('title', 'All Videos')
 @section('adminlayout')
-
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 <div class="container-fluid py-4" style="height:100vh">
 
   <div class="row mt-4">
@@ -15,15 +15,15 @@
           @endif
           <div class="d-flex justify-content-between">
 
-            <h6 class="mb-2">Vidoes</h6>
+            <h2 class="mb-2">All Vidoes</h2>
             <p style="float: right"><a class="btn btn-outline-primary" href="{{ route("create.videos") }}"><i
                   class="fas fa-plus"></i> New Video</a>
             </p>
           </div>
         </div>
         <div class="card-body">
-          <div class="tables-responsive">
-            <table class="table table-hover w-100">
+          <div class="table-responsive" style="height: 100vh">
+            <table id="myTable" class="table table-hover w-100" >
               <thead class="bg-gradient-dark">
                 <tr>
                   <th>s/n</th>
@@ -48,17 +48,26 @@
                     {{ ucwords($video->title) }}
                     <br>
                     <a title="view {{ ucwords($video->slug) }}" href="{{ route("show.videos", $video->id) }}" class="badge bg-gradient-info badge-sm">
-                      <i class="fas fa-eye"></i>
+                      <i class="fas fa-eye"></i> View
+                    </a><br>
+                    @if($video->status)
+                    <a href="{{ route("draft.videos", $video->id) }}" class="badge bg-gradient-dark badge-sm">
+                      Send to Draft
                     </a>
+                    @else
+                    <a href="{{ route("activate.videos", $video->id) }}" class="badge bg-gradient-success badge-sm">
+                      Activate
+                    </a>
+                    @endif
                   </td>
                   <td>{{ ucwords($video->slug) }}</td>
                   <td>
                     <img src="{{ asset($video->thumbnail) }}" alt="Thumbnail" width="100px" height="80px" class="">
                   </td>
-                  <td>{{ $video->catName }}</td>
-                  <td>{{ $video->genName }}</td>
-                  <td>{{ $video->PcName }}</td>
-                  <td>{{ $video->rateName }}</td>
+                  <td>{{ ucwords($video->catName) }}</td>
+                  <td>{{ ucwords($video->genName) }}</td>
+                  <td>{{ ucwords($video->PcName) }}</td>
+                  <td>{{ ucwords($video->rateName) }}</td>
                   <td>
                     @if($video->status )
                     <span class="badge bg-gradient-success">Active</span>
@@ -114,6 +123,12 @@
 @section('scripts')
 <script src="{{ asset('backend/assets/js/core/jquery.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+ <script>
+   $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+ </script>
 <script>
   $(function(){
         $(document).on('click', '#delete', function(e){

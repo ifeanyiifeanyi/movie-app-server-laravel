@@ -12,7 +12,7 @@
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
                        
-                        <h6 class="mb-2">Create Movie Categories</h6>
+                        <h2 class="mb-2">Create Movie Categories</h2>
                         <p style="float: right"><a class="btn btn-outline-primary"
                                 href="{{ route('category.view') }}"><i class="fas fa-university"></i> Back To
                                 Categories</a></p>
@@ -43,7 +43,7 @@
 
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control form-control-lg @error('description') is-invalid @enderror"
+                            <textarea id="editor1" class="form-control form-control-lg @error('description') is-invalid @enderror"
                                 placeholder="Category Description" name="description">{{ old('description') }}</textarea>
                                 @error('description')
                                 <div class="text text-danger">{{ $message }}</div>
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Save</button>
+                            <button type="submit" class="btn bg-gradient-primary btn-lg w-100 mt-4 mb-0">Save</button>
                         </div>
                     </form>
                 </div>

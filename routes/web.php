@@ -110,6 +110,9 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
     Route::get('/videos/show/{id}', [VideoController::class, 'show'])->name('show.videos') ;
     Route::get('/videos/edit/{id}', [VideoController::class, 'edit'])->name('edit.videos') ;
     Route::delete('/videos/delete/{id}', [VideoController::class, 'destroy'])->name('destory.videos') ;
+    Route::post('/videos/update/{id}', [VideoController::class, 'update'])->name('update.videos') ;
+    Route::get('/videos/draft/{id}', [VideoController::class, 'draft'])->name('draft.videos') ;
+    Route::get('/videos/activate/{id}', [VideoController::class, 'activate'])->name('activate.videos') ;
 
 
     // Route::class
