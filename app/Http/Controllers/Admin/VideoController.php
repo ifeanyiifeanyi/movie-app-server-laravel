@@ -23,7 +23,9 @@ class VideoController extends Controller
                     ->join('genres', 'videos.genres_id', '=', 'genres.id')
                     ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
                     ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
-                    ->select('videos.*','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')->simplePaginate(10);
+                    ->select('videos.*','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
+                    ->orderBy('id', 'desc')
+                    ->simplePaginate(5);
                     
                     ;
        return view('admin.videosFolders.index', compact('videos'));

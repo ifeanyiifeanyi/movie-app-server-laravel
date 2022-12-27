@@ -24,4 +24,20 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/categories', [UserController::class, 'category']);
 
+// videos with associated category, rating, genre, parent control
+Route::get('/allvideo', [UserController::class, 'allVideos']);
+
+// videos by rating
+Route::get('/allvideobyrating', [UserController::class, 'allVideosByRating']);
+
+
+// videos by categories
+Route::get('/allvideobycategory', [UserController::class, 'allVideosByCategory']);
+
+// get thumbnail for carousel 
+Route::get('/thumbnail', [UserController::class, 'BannerThumbnail']);
+
+
+Route::get('/video/{id}', [UserController::class, 'playVideo']);
+
 //ngrok http http://localhost:8000 -> REMEMBER FOR your api url to your app

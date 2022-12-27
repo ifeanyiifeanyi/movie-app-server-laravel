@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\LoginService;
-use App\Helper\UserService;
+use App\Models\Videos;
 use App\Models\categories;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use App\Helper\UserService;
 use Illuminate\Support\Str;
+use App\Helper\LoginService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -55,4 +57,73 @@ class UserController extends Controller
         $category = categories::inRandomOrder()->limit(3)->get();
         return response()->json($category);
     }
+
+    public function allVideos(){
+        $videos = DB::table('videos')
+        ->join('categories', 'videos.category_id', '=', 'categories.id')
+        ->join('genres', 'videos.genres_id', '=', 'genres.id')
+        ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
+        ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
+        ->select('videos.id','videos.title','videos.thumbnail','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
+        ->orderBy('id', 'desc')
+        ->where("videos.status", 1)->inRandomOrder()->limit(8)->get();
+
+
+
+        return response()->json($videos);
+    }
+    public function allVideosByRating(){
+        $videos = DB::table('videos')
+        ->join('categories', 'videos.category_id', '=', 'categories.id')
+        ->join('genres', 'videos.genres_id', '=', 'genres.id')
+        ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
+        ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
+        ->select('videos.id','videos.title','videos.thumbnail','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
+        ->orderBy('id', 'desc')
+        ->where("videos.status", 1)
+        ->where("videos.rating_id", 1)
+        ->inRandomOrder()->limit(8)->get();
+        return response()->json($videos);
+    }
+    public function allVideosByCategory(){
+        $videos = DB::table('videos')
+        ->join('categories', 'videos.category_id', '=', 'categories.id')
+        ->join('genres', 'videos.genres_id', '=', 'genres.id')
+        ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
+        ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
+        ->select('videos.id','videos.title','videos.thumbnail','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
+        ->orderBy('id', 'desc')
+        ->where("videos.status", 1)
+        ->where("videos.category_id", 1)
+        ->inRandomOrder()->limit(8)->get();
+        return response()->json($videos);
+    }
+
+    public function playVideo($id){
+        $video = DB::table('videos')
+        ->join('categories', 'videos.category_id', '=', 'categories.id')
+        ->join('genres', 'videos.genres_id', '=', 'genres.id')
+        ->join('ratings', 'videos.rating_id', '=', 'ratings.id')
+        ->join('parent_controls', 'videos.parent_control_id', '=', 'parent_controls.id')
+        ->select('videos.*','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
+        ->orderBy('id', 'desc')
+        ->where("videos.id", $id)->get();
+        
+        if($video){
+            return response()->json($video);
+        }else{
+            return response()->json([
+                'type' => 'error',
+                'message' => "No Video Found With such name"
+            ]);
+        }
+    }
+
+    public function BannerThumbnail(){
+        $videoThumbnail = Videos::select("id", "title", "thumbnail")
+        ->latest()
+        ->get();
+        return response()->json($videoThumbnail);
+    }
+
 }

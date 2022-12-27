@@ -36,7 +36,7 @@ class LoginService{
         }else{
             $user = User::where('username', $this->username)->first();
             if($user){
-                if($user->status === "1"){
+                if($user->status === 1){
                     if(Hash::check($this->password, $user->password)){
                         return ['status' => true, 'username' => $user];
                     }else{
