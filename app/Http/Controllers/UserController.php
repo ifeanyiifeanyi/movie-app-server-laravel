@@ -53,9 +53,34 @@ class UserController extends Controller
     }
 
 
+    // select all categories, limit to 3, in random order
     public function category(){
         $category = categories::inRandomOrder()->limit(3)->get();
         return response()->json($category);
+    }
+
+    // select first category
+    public function firstCategory(){
+        $firstCategory = categories::select('name')->take(1)->first();
+        if($firstCategory){
+            return response()->json($firstCategory);
+        }
+    }
+
+    // second category
+    public function secondCategory(){
+        $secondCategory = categories::select('name')->skip(1)->first();
+        if($secondCategory){
+            return response()->json($secondCategory);
+        }
+    }
+
+    // third category
+    public function thirdCategory(){
+        $thirdCategory = categories::select('name')->skip(2)->first();
+        if($thirdCategory){
+            return response()->json($thirdCategory);
+        }
     }
 
     public function allVideos(){
