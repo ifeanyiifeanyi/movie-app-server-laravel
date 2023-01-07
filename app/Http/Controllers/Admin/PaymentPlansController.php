@@ -48,7 +48,7 @@ class PaymentPlansController extends Controller
     public function update(Request $request,$id)
     {
         $request->validate([
-            'name' => 'required|unique:payment_plans|max:100|string|min:3',
+            'name' => 'required|max:100|string|min:3',
             'amount' => 'required|min:3|integer',
             'duration_in_name' => 'required|max:255|string',
             'duration_in_number' => 'required|integer'

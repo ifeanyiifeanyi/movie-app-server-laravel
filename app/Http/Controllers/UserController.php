@@ -7,6 +7,7 @@ use App\Models\categories;
 use App\Helper\UserService;
 use Illuminate\Support\Str;
 use App\Helper\LoginService;
+use App\Models\PaymentPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -46,10 +47,6 @@ class UserController extends Controller
         // check if user account has been verified
         $response = (new LoginService($request->username, $request->password))->login();
         return response()->json($response);
-
-
-
-
     }
 
 
@@ -83,6 +80,7 @@ class UserController extends Controller
         }
     }
 
+    // select all videos
     public function allVideos(){
         $videos = DB::table('videos')
         ->join('categories', 'videos.category_id', '=', 'categories.id')
@@ -92,11 +90,10 @@ class UserController extends Controller
         ->select('videos.id','videos.title','videos.thumbnail','genres.name AS genName', 'categories.name AS catName', 'ratings.name AS rateName', 'parent_controls.name as PcName')
         ->orderBy('id', 'desc')
         ->where("videos.status", 1)->inRandomOrder()->limit(8)->get();
-
-
-
         return response()->json($videos);
     }
+
+    // select videos based on rating
     public function allVideosByRating(){
         $videos = DB::table('videos')
         ->join('categories', 'videos.category_id', '=', 'categories.id')
@@ -110,6 +107,8 @@ class UserController extends Controller
         ->inRandomOrder()->limit(8)->get();
         return response()->json($videos);
     }
+
+    // NOTE: This function, come back and remove the static category and status values
     public function allVideosByCategory(){
         $videos = DB::table('videos')
         ->join('categories', 'videos.category_id', '=', 'categories.id')
@@ -124,6 +123,7 @@ class UserController extends Controller
         return response()->json($videos);
     }
 
+    // fetch a video with id, category, genres, rating and parent_control
     public function playVideo($id){
         $video = DB::table('videos')
         ->join('categories', 'videos.category_id', '=', 'categories.id')
@@ -144,11 +144,18 @@ class UserController extends Controller
         }
     }
 
+    //  intended for displaying list of thumbnails as carousel
     public function BannerThumbnail(){
         $videoThumbnail = Videos::select("id", "title", "thumbnail")
         ->latest()
         ->get();
         return response()->json($videoThumbnail);
+    }
+
+    // fetch all payment plans
+    public function paymentPlan(){
+        $paymentPlans = PaymentPlan::where('status', 1)->latest()->get();
+        return response()->json($paymentPlans);
     }
 
 }

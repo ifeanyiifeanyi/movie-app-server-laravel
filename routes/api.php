@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
@@ -40,7 +41,12 @@ Route::get('/allvideobycategory', [UserController::class, 'allVideosByCategory']
 // get thumbnail for carousel 
 Route::get('/thumbnail', [UserController::class, 'BannerThumbnail']);
 
-
+// fetch a single video by id
 Route::get('/video/{id}', [UserController::class, 'playVideo']);
+
+
+// fetch paymentPlans
+Route::get('/paymentPlans', [UserController::class, 'paymentPlan']);
+
 
 //ngrok http http://localhost:8000 -> REMEMBER FOR your api url to your app
