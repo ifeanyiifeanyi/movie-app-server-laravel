@@ -22,11 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+// save and update route for online payment
+Route::post('/payment', [UserController::class,'savePayment']);
 
 Route::get('/categories', [UserController::class, 'category']);
 Route::get('/firstCategory', [UserController::class, 'firstCategory']);
 Route::get('/secondCategory', [UserController::class, 'secondCategory']);
 Route::get('/thirdCategory', [UserController::class, 'thirdCategory']);
+
+
+
 
 // videos with associated category, rating, genre, parent control
 Route::get('/allvideo', [UserController::class, 'allVideos']);
