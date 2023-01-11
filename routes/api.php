@@ -53,5 +53,8 @@ Route::get('/video/{id}', [UserController::class, 'playVideo']);
 // fetch paymentPlans
 Route::get('/paymentPlans', [UserController::class, 'paymentPlan']);
 
+//active user plan
+Route::get('/userActivePlan/{id}', [UserController::class, 'userActivePlan']);
+
 
 //ngrok http http://localhost:8000 -> REMEMBER FOR your api url to your app

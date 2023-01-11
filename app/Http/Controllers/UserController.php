@@ -270,4 +270,24 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    // fetch active user plan
+    public function userActivePlan($id){
+        $active_user_plan = DB::table('users')
+            ->join('active_plans', 'users.subscription_id', '=', 'active_plans.paymentPlanId')
+            ->join('payment_plans', 'active_plans.paymentPlanId', '=', 'payment_plans.id')
+
+            ->select('active_plans.created_at', 'active_plans.transaction_reference', 
+                     'payment_plans.name',
+                     'payment_plans.duration_in_name', 'payment_plans.amount')
+            ->where('users.id', $id)
+            ->first();
+        if($active_user_plan){
+            return response()->json($active_user_plan);    
+        }else {
+            return response()->json([
+                'error' => "User has no active subscription plan",
+            ], 500);
+        }   
+    }
 }
