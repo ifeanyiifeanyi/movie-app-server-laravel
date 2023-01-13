@@ -144,13 +144,9 @@ class UserController extends Controller
             ->where("videos.rating_id", 1)
             ->inRandomOrder()->limit(8)->get();
 
-        if (!$videos) {
-            return response()->json([
-                'error' => $videos->errors()->messages()
-            ], 404);
-        } else {
+      
             return response()->json($videos);
-        }
+        
     }
 
     // NOTE: This function, come back and remove the static category and status values
@@ -281,13 +277,14 @@ class UserController extends Controller
                      'payment_plans.name',
                      'payment_plans.duration_in_name', 'payment_plans.amount')
             ->where('users.id', $id)
-            ->first();
+            ->get();
         if($active_user_plan){
             return response()->json($active_user_plan);    
         }else {
             return response()->json([
-                'error' => "User has no active subscription plan",
-            ], 500);
-        }   
+                'error' => $active_user_plan->errors->messages(),
+            ], 404);
+        }  
+        
     }
 }

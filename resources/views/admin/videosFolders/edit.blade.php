@@ -4,7 +4,8 @@
 @section('title', 'Edit Video '.$video->slug)
 @section('mystyles')
 <style>
-    .fa-cog, .l{
+    .fa-cog,
+    .l {
         font-size: 35px !important;
         color: #fff !important;
     }
@@ -61,10 +62,8 @@
                                         @if(count($categories) > 0)
 
                                         @foreach ($categories as $category)
-                                        <option 
-                                        {{ 
-                                            $video->category_id == $category->id ? "selected" : "" 
-                                        }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option {{ $video->category_id == $category->id ? "selected" : ""
+                                            }} value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
 
                                         @else
@@ -96,14 +95,13 @@
                                         placeholder="Genre" name="genre_id">
                                         <option value="">Video Genre</option>
                                         @if ($genre)
-                                            @foreach ($genre as $genre_value)
-                                            <option 
-                                            {{ $video->genres_id == $genre_value->id ? "selected" : "" }}
-                                             value="{{ $genre_value->id }}">{{ ucwords($genre_value->name) }}</option>
-                                                
-                                            @endforeach
+                                        @foreach ($genre as $genre_value)
+                                        <option {{ $video->genres_id == $genre_value->id ? "selected" : "" }}
+                                            value="{{ $genre_value->id }}">{{ ucwords($genre_value->name) }}</option>
+
+                                        @endforeach
                                         @else
-                                            <option>No genre available</option>
+                                        <option>No genre available</option>
                                         @endif
                                     </select>
                                     @error('genre_id')
@@ -118,11 +116,12 @@
                                         placeholder="Rating" name="rating_id">
                                         <option value="">Select Video Rating</option>
                                         @if ($ratings)
-                                            @foreach ($ratings as $rating)
-                                                <option {{ $video->rating_id == $rating->id ? "selected" : "" }} value="{{ $rating->id }}">{{ $rating->name }}</option>
-                                            @endforeach
+                                        @foreach ($ratings as $rating)
+                                        <option {{ $video->rating_id == $rating->id ? "selected" : "" }} value="{{
+                                            $rating->id }}">{{ $rating->name }}</option>
+                                        @endforeach
                                         @else
-                                            <option value="">No Rating Available</option>
+                                        <option value="">No Rating Available</option>
                                         @endif
                                     </select>
                                     @error('rating_id')
@@ -137,11 +136,12 @@
                                         placeholder="Parential Control" name="parent_control_id">
                                         <option value="">Parental Control</option>
                                         @if ($parentControls)
-                                            @foreach ($parentControls as $pc)
-                                                <option {{ $video->parent_control_id == $pc->id ? "selected" : "" }} value="{{ $pc->id }}">{{ $pc->name }}</option>
-                                            @endforeach
+                                        @foreach ($parentControls as $pc)
+                                        <option {{ $video->parent_control_id == $pc->id ? "selected" : "" }} value="{{
+                                            $pc->id }}">{{ $pc->name }}</option>
+                                        @endforeach
                                         @else
-                                            <option value="">No parental Control</option>
+                                        <option value="">No parental Control</option>
                                         @endif
                                     </select>
                                     @error('parent_control_id')
@@ -166,7 +166,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <video id="videoFile" src="{{ asset($video->video) }}" width="150px" height="100px" controls></video>
+                                <video id="videoFile" src="{{ asset($video->video) }}" width="150px" height="100px"
+                                    controls></video>
                             </div>
                         </div>
                         <div class="row">
@@ -183,7 +184,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <img id="imgFile" src="{{ asset($video->thumbnail) }}" width="150px" height="100px" alt="" class="fluid">
+                                <img id="imgFile" src="{{ asset($video->thumbnail) }}" width="150px" height="100px"
+                                    alt="" class="fluid">
                             </div>
                         </div>
                         <div class="row">
@@ -211,8 +213,9 @@
                                 <div class="mb-3">
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <input {{ $video->status ? "checked" : "" }} @error('status') is-invalid @enderror type="checkbox" name="status"
-                                                id="status"> <label for="status">Status</label>
+                                            <input {{ $video->status ? "checked" : "" }} @error('status') is-invalid
+                                            @enderror type="checkbox" name="status"
+                                            id="status"> <label for="status">Status</label>
                                             @error('status')
                                             <div class="text text-danger">{{ $message }}</div>
                                             @enderror
@@ -224,8 +227,9 @@
 
 
                         <div class="text-center">
-                           
-                            <button id="btn1" type="submit" class="btn btn-lg bg-gradient-warning btn-lg w-100 mt-4 mb-0">Update
+
+                            <button id="btn1" type="submit"
+                                class="btn btn-lg bg-gradient-warning btn-lg w-100 mt-4 mb-0">Update
                             </button>
 
 
@@ -308,8 +312,18 @@
                 }
                
             },
-
-        })
+        }).fail(function(xhr, status, error) {
+            console.log("me me me me", error);
+           
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: xhr.statusText
+            });
+            setTimeout(function(){
+                location.reload();
+            },3000);
+        });
     })
 </script>
 

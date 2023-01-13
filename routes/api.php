@@ -39,7 +39,6 @@ Route::get('/allvideo', [UserController::class, 'allVideos']);
 // videos by rating
 Route::get('/allvideobyrating', [UserController::class, 'allVideosByRating']);
 
-
 // videos by categories
 Route::get('/allvideobycategory', [UserController::class, 'allVideosByCategory']);
 
@@ -48,7 +47,6 @@ Route::get('/thumbnail', [UserController::class, 'BannerThumbnail']);
 
 // fetch a single video by id
 Route::get('/video/{id}', [UserController::class, 'playVideo']);
-
 
 // fetch paymentPlans
 Route::get('/paymentPlans', [UserController::class, 'paymentPlan']);

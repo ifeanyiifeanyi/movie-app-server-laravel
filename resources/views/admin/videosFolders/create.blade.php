@@ -288,7 +288,18 @@
                
             },
 
-        })
+        }).fail(function(xhr, status, error) {
+            console.log("me me me me", error);
+           
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: xhr.statusText
+            });
+            setTimeout(function(){
+                location.reload();
+            },3000);
+        });
     })
 </script>
 
