@@ -144,9 +144,8 @@ class UserController extends Controller
             ->where("videos.rating_id", 1)
             ->inRandomOrder()->limit(8)->get();
 
-      
-            return response()->json($videos);
-        
+
+        return response()->json($videos);
     }
 
     // NOTE: This function, come back and remove the static category and status values
@@ -172,6 +171,7 @@ class UserController extends Controller
     }
 
     // fetch a video with id, category, genres, rating and parent_control
+    // used this function to set the number of view for each video
     public function playVideo($id)
     {
         $video = DB::table('videos')
@@ -184,6 +184,9 @@ class UserController extends Controller
             ->where("videos.id", $id)->get();
 
         if ($video) {
+            // if video was found increment the number of views
+            DB::table('videos')->where('id', $id)->increment('views');
+
             return response()->json($video);
         } else {
             return response()->json([
@@ -192,8 +195,7 @@ class UserController extends Controller
         }
     }
 
-    //  intended for displaying list of thumbnails as carousel
-    // not used
+    //  intended for displaying list of thumbnails as carousel(not used yet)
     public function BannerThumbnail()
     {
         $videoThumbnail = Videos::select("id", "title", "thumbnail")
@@ -268,23 +270,73 @@ class UserController extends Controller
     }
 
     // fetch active user plan
-    public function userActivePlan($id){
+    public function userActivePlan($id)
+    {
         $active_user_plan = DB::table('users')
             ->join('active_plans', 'users.subscription_id', '=', 'active_plans.paymentPlanId')
             ->join('payment_plans', 'active_plans.paymentPlanId', '=', 'payment_plans.id')
 
-            ->select('active_plans.created_at', 'active_plans.transaction_reference', 
-                     'payment_plans.name',
-                     'payment_plans.duration_in_name', 'payment_plans.amount')
+            ->select(
+                'active_plans.created_at',
+                'active_plans.transaction_reference',
+                'payment_plans.name',
+                'payment_plans.duration_in_name',
+                'payment_plans.amount'
+            )
             ->where('users.id', $id)
             ->get();
-        if($active_user_plan){
-            return response()->json($active_user_plan);    
-        }else {
+        if ($active_user_plan) {
+            return response()->json($active_user_plan);
+        } else {
             return response()->json([
                 'error' => $active_user_plan->errors->messages(),
             ], 404);
-        }  
-        
+        }
+    }
+
+    // video likes
+    public function VideoLikes(Request $request)
+    {
+        $videoId = $request->videoId;
+        $userId = $request->userId;
+
+
+        $video = Videos::find($videoId);
+        $user = User::find($userId);
+
+        $likes = DB::table('likes')
+            ->where('user_id', $user->id)
+            ->where('video_id', $video->id)
+            ->first();
+
+        if ($likes) {
+            return response()->json([
+                'message' => 'You have already liked this video.'
+            ], 400);
+        }
+
+        DB::table('likes')->insert(['user_id' => $user->id, 'video_id' => $video->id]);
+        $video->likes += 1;
+        $video->save();
+
+        return response()->json([
+            'likes' => $video->likes,
+        ]);
+    }
+    public function VideoDislikes($id)
+    {
+        $video = videos::find($id);
+        if ($video->likes > 0) {
+            $video->likes -= 1;
+            $video->save();
+        } else {
+            return response()->json([
+                'message' => 'Cannot decrease dislike count below 0.',
+            ]);
+        }
+
+        return response()->json([
+            'likes' => $video->likes,
+        ]);
     }
 }

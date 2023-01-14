@@ -13,6 +13,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    public function likedVideos()
+    {
+        return $this->belongsToMany(Videos::class, 'likes');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

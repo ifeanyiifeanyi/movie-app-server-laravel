@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 // save and update route for online payment
-Route::post('/payment', [UserController::class,'savePayment']);
+Route::post('/payment', [UserController::class, 'savePayment']);
 
 Route::get('/categories', [UserController::class, 'category']);
 Route::get('/firstCategory', [UserController::class, 'firstCategory']);
@@ -53,6 +53,10 @@ Route::get('/paymentPlans', [UserController::class, 'paymentPlan']);
 
 //active user plan
 Route::get('/userActivePlan/{id}', [UserController::class, 'userActivePlan']);
+
+// video likes and dislikes
+Route::post('videolikes/likes', [UserController::class, 'VideoLikes']);
+Route::get('videodislikes/{id}/dislikes', [UserController::class, 'VideoDislikes']);
 
 
 //ngrok http http://localhost:8000 -> REMEMBER FOR your api url to your app

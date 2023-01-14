@@ -10,7 +10,10 @@ class Videos extends Model
 {
     use SoftDeletes;
 
-
+    public function usersWhoLiked()
+    {
+        return $this->belongsToMany(User::class, 'likes');
+    }
 
     // public function categories(){
     //     return $this->belongsTo(categories::class, 'id');
