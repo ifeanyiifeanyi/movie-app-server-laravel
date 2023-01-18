@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('account/verify/{token}', [UserController::class, 'verifyAccount'])->name('user.verify');
+Route::get('confirm/verify', [UserController::class, 'confirmVerify'])->name('confirm.verify');
+
+
 // save and update route for online payment
 Route::post('/payment', [UserController::class, 'savePayment']);
 

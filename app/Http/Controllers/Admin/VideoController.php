@@ -41,6 +41,7 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
+        // return $_FILES['video']['error'];
 
         $validator = Validator::make($request->all(), [
             'title'                 => 'required|min:3|unique:videos|string',
@@ -50,15 +51,15 @@ class VideoController extends Controller
             'genre_id'              => 'required',
             'rating_id'             => 'required',
             'parent_control_id'     => 'required',
-            'short_description'     => 'required|string',
-            'long_description'      => 'string',
-            'video'                 => 'required|file|mimes:mp4,ogx,oga,ogv,ogg,webm|max:30000',
-            'thumbnail'             => 'required|image|mimes:jpeg, png, jpg|max:2048'
+            'short_description'     => 'required',
+            'long_description'      => 'required',
+            'video'                 => 'required|file|mimes:mp4,ogx,oga,ogv,ogg,webm|max:100000',
+            'thumbnail'             => 'required|image|mimes:jpeg, png, jpg, webp|max:9048'
         ]);
   
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors()->all()
+                'error' => $validator->errors()->messages()
             ]);
         }
 
@@ -92,7 +93,7 @@ class VideoController extends Controller
         $vidoeUploads->long_description  = $request->long_description;
         $vidoeUploads->status            = $request->status ? 1 : 0;
         $vidoeUploads->save();
-
+        //return redirect()->route("videos")->with("status", "Video Created");
        // return a response for js (success)
         return response()->json([
             'success' => true

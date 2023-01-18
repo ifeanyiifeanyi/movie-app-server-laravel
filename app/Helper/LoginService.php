@@ -38,6 +38,7 @@ class LoginService{
             if($user){
                 if($user->status === 1){
                     if(Hash::check($this->password, $user->password)){
+                        $token = $user->createToken($device_name)->plainTextToken;
                         return ['status' => true, 'username' => $user];
                     }else{
                         return ['status' => false, 'message' => 'incorrect password or username'];

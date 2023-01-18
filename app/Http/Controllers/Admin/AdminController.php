@@ -15,7 +15,7 @@ class AdminController extends Controller
         // videos
         $active_video = Videos::where('status',1)->get()->count();
         $draft_video = Videos::where('status',0)->get()->count();
-        $last_inserted_video_date  = Videos::latest('created_at')->first()->created_at;
+        @$last_inserted_video_date  = Videos::latest('created_at')->first()->created_at;
 
         // users
         $active_users = User::where([

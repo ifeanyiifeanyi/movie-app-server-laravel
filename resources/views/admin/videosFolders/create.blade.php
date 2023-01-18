@@ -1,6 +1,8 @@
 @extends('admin.layouts/adminlayout')
 
-
+@php
+// phpinfo();
+@endphp
 @section('title', 'Create Video')
 @section('mystyles')
 <style>
@@ -27,14 +29,14 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form role="form" method="POST" action="" id="add_videos" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('store.videos') }}" id="add_videos" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <input type="text"
                                         class="form-control form-control-lg @error('title') is-invalid @enderror"
-                                        placeholder="Title" name="title" aria-label="text" value="{{ old('title') }}">
+                                        placeholder="Title" name="title" aria-label="text" value="{{ old('title') }}" autofocus>
                                     @error('title')
                                     <div class="text text-danger">{{ $message }}</div>
                                     @enderror
@@ -180,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <textarea id="editor" name="short_description"
+                                    <textarea name="short_description"
                                         class="form-control form-control-lg @error('short_description') is-invalid @enderror"
                                         placeholder="Short Description"></textarea>
                                     @error('short_description')
@@ -190,7 +192,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <textarea id="editor1" name="long_description"
+                                    <textarea name="long_description"
                                         class="form-control form-control-lg @error('long_description') is-invalid @enderror"
                                         placeholder="Long Description"></textarea>
                                     @error('long_description')
@@ -288,18 +290,19 @@
                
             },
 
-        }).fail(function(xhr, status, error) {
-            console.log("me me me me", error);
+        })
+        // .fail(function(xhr, status, error) {
+        //     console.log("me me me me", error);
            
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: xhr.statusText
-            });
-            setTimeout(function(){
-                location.reload();
-            },3000);
-        });
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Oops...',
+        //         text: xhr.statusText
+        //     });
+        //     // setTimeout(function(){
+        //     //     location.reload();
+        //     // },3000);
+        // });
     })
 </script>
 

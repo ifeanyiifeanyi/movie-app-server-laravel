@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('likes', function(Blueprint $table){
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('video_id');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('likes')) {
+            Schema::create('likes', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('video_id');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

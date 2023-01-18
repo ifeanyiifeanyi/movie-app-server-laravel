@@ -10,6 +10,7 @@ use App\Models\PaymentPlan;
 use Illuminate\Support\Str;
 use App\Helper\LoginService;
 use App\Models\ActivePlans;
+use App\Models\UserVerify;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -29,15 +30,55 @@ class UserController extends Controller
 
         $response = (new UserService($userid, $request->name, $request->username, $request->email, $request->password, $status))->register($request->devicename);
 
+        // this token is for email verification
+        $token = Str::random(64);
+
+        $user = User::where('id', $response['user']->id)->first();
+        $user->token = $token;
+        $user->save();
+
         //if registration was successful send a email to verify account to activate it
-        // if($response){
-        //     Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($request){
-        //         $message->to($request->email);
-        //         $message->subject("Email verification");
-        //     });
-        // }
+        if ($response) {
+            Mail::send('email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+                $message->to($request->email);
+                $message->subject("Email verification");
+            });
+        }
 
         return response()->json($response);
+    }
+
+    public function verifyAccount($token)
+    {
+        $verifyUser = User::where('token', $token)->first();
+        $message = "Sorry your mail could not be identified";
+
+        if (!is_null($verifyUser)) {
+          
+
+            if ($verifyUser->status === 0) {
+                $verifyUser->email_verified_at = now();
+                $verifyUser->status = 1;
+                $verifyUser->save();
+                $message = "Your e-mail is verified. You can now login.";
+
+                return response()->json([
+                    'message' => $message
+                ]);
+            } else {
+                $message = "Your e-mail is already verified. You can now login.";
+                return response()->json([
+                    'error' => $message
+                ], 404);
+            }
+        }
+        return redirect()->route('confirm.verify')->with('message', $message);
+    }
+
+    public function confirmVerify(Request $request)
+
+    {
+        return view('email.confirmVerify');
     }
 
     public function login(Request $request)
