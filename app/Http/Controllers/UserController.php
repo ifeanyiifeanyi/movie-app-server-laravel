@@ -99,7 +99,7 @@ class UserController extends Controller
 
         // }
         // check if user account has been verified
-        $response = (new LoginService($request->username, $request->password))->login();
+        $response = (new LoginService($request->username, $request->password))->login($request->devicename);
         return response()->json($response);
     }
 

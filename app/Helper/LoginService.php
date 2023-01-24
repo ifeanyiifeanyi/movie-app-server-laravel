@@ -29,7 +29,7 @@ class LoginService{
         }
     }
 
-    public function login(){
+    public function login($device_name){
         $validate = $this->validateInputLogin();
         if ($validate['status'] == false) {
             return $validate;
@@ -38,7 +38,7 @@ class LoginService{
             if($user){
                 if($user->status === 1){
                     if(Hash::check($this->password, $user->password)){
-                        $token = $user->createToken("login_token")->plainTextToken;
+                        $token = $user->createToken($device_name)->plainTextToken;
                         return ['status' => true, 'token' => $token, 'username' => $user];
                     }else{
                         return ['status' => false, 'message' => 'incorrect password or username'];
