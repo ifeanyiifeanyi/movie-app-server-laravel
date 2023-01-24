@@ -37,6 +37,7 @@ class UserController extends Controller
         $user->token = $token;
         $user->save();
 
+
         //if registration was successful send a email to verify account to activate it
         if ($response) {
             Mail::send('email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
@@ -45,7 +46,13 @@ class UserController extends Controller
             });
         }
 
-        return response()->json($response);
+        if (count($response) > 0) {
+            return response()->json($response);
+        } else {
+            return response()->json([
+                'error' => "registration failed",
+            ], 404);
+        }
     }
 
     public function verifyAccount($token)
@@ -54,7 +61,7 @@ class UserController extends Controller
         $message = "Sorry your mail could not be identified";
 
         if (!is_null($verifyUser)) {
-          
+
 
             if ($verifyUser->status === 0) {
                 $verifyUser->email_verified_at = now();
@@ -100,6 +107,7 @@ class UserController extends Controller
     // select all categories, limit to 3, in random order
     public function category()
     {
+        
         $category = categories::inRandomOrder()->limit(3)->get();
 
         if ($category) {
