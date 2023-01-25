@@ -90,15 +90,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
-        // $user = (filter_var($request->username, FILTER_VALIDATE_EMAIL) || $request->username) ? 'email' : 'username';
-        // $request->merge([
-        //     $user => $request->username
-        // ]);
-        // if (auth()->attempt($request->only($user, 'password'))){
-
-        // }
-        // check if user account has been verified
         $response = (new LoginService($request->username, $request->password))->login($request->devicename);
         return response()->json($response);
     }
@@ -349,7 +340,6 @@ class UserController extends Controller
         $videoId = $request->videoId;
         $userId = $request->userId;
 
-
         $video = Videos::find($videoId);
         $user = User::find($userId);
 
@@ -372,9 +362,20 @@ class UserController extends Controller
             'likes' => $video->likes,
         ]);
     }
-    public function VideoDislikes($id)
+    public function VideoDislikes(Request $request)
     {
-        $video = videos::find($id);
+        // dislike not complete
+        $videoId = $request->videoId;
+        $userId = $request->userId;
+
+        $video = Videos::find($videoId);
+        $user = User::find($userId);
+
+        $likes = DB::table('likes')
+            ->where('user_id', $user->id)
+            ->where('video_id', $video->id)
+            ->first();
+
         if ($video->likes > 0) {
             $video->likes -= 1;
             $video->save();

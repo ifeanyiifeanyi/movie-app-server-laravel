@@ -18,10 +18,16 @@ class LoginService{
 
     public function validateInputLogin(){
       
-        $validator = Validator::make(["username" => $this->username,"password" => $this->password], [
-            'username'  => ['required', 'string'],
-            'password'  => ['required', 'string', Password::min(8)]
-        ]);
+        $validator = Validator::make(
+            [
+                "username"      => $this->username,
+                "password"      => $this->password
+            ],
+            [
+                'username'      => ['required', 'string'],
+                'password'      => ['required', 'string', Password::min(8)]
+            ]
+        );
         if($validator->fails()){
             return ['status' => false, 'message'=> $validator->messages()];
         }else{
@@ -34,7 +40,11 @@ class LoginService{
         if ($validate['status'] == false) {
             return $validate;
         }else{
-            $user = User::where('username', $this->username)->first();
+            $user = User::where('username', $this->username)
+                    ->orWhere('email',  $this->username)
+                    ->orWhere('userid', $this->username)
+                    ->first();
+                    
             if($user){
                 if($user->status === 1){
                     if(Hash::check($this->password, $user->password)){
