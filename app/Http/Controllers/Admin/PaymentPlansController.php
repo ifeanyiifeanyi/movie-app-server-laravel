@@ -10,8 +10,11 @@ class PaymentPlansController extends Controller
 {
     public function index()
     {
-        $allplans  = PaymentPlan::latest()->get();
-        return view('admin.paymentplans.index', compact('allplans'));
+        $allplans  = PaymentPlan::latest()->where('status', 1)->get();
+        $activePlans = PaymentPlan::join('active_plans', 'payment_plans.id', '=', 'active_plans.paymentPlanId') 
+            ->select('active_plans.created_at AS Active_date', 'payment_plans.name AS plan_name', 'payment_plans.duration_in_name AS plan_duration_name', 'payment_plans.id AS plan_id', 'payment_plans.amount As amount')->get();
+            // dd($activePlans);
+        return view('admin.paymentplans.index', compact('allplans', 'activePlans'));
     }
 
     public function create()
@@ -69,6 +72,9 @@ class PaymentPlansController extends Controller
         PaymentPlan::find($id)->delete();
         return redirect()->route('payment.plan')->with('status', "Payment Plan Deleted!");
     }
+  
+    // fetch active plans
+   
 
 
 }

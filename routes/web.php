@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ParentControlController;
 use App\Http\Controllers\Admin\PaymentPlansController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\ActivePlanController;
 use App\Http\Controllers\Admin\VideoRatingController;
 use App\Http\Controllers\Payment\PaymentController;
 use Illuminate\Support\Facades\Auth;
@@ -36,10 +37,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-
-
-
     // movie web categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.view');
     Route::get('/create/categories', [CategoryController::class, 'create'])->name('category.create');
@@ -50,14 +47,20 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
 
 
 
-
     // movie plans routes 
     Route::get('/payment-plans', [PaymentPlansController::class, 'index'])->name('payment.plan');
     Route::get('/create/payment-plans', [PaymentPlansController::class, 'create'])->name('payment.create');
-    Route::post('/save/payment-plans', [PaymentPlansController::class, 'save'])->name('payment.save');
+    Route::post('/save/c', [PaymentPlansController::class, 'save'])->name('payment.save');
     Route::get('/edit/{id}/payment-plans', [PaymentPlansController::class, 'edit'])->name('payment.edit');
     Route::post('/update/{id}/payment-plans', [PaymentPlansController::class, 'update'])->name('payment.update');
     Route::delete('/delete/{id}/payment-plans', [PaymentPlansController::class, 'delete'])->name('payment.delete');
+
+    // active plans routes
+    // Route::get('payment-plans/plan/{id}', [PaymentPlansController::class,'activePlan'])->name('payment.check.plan');
+    Route::controller(ActivePlanController::class)->group(function(){
+        Route::get('user/active/payment-plans/{id}', 'index')->name('active.user.plan');
+
+    });
 
 
 
@@ -97,10 +100,6 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function(){
         Route::post('/parent-control/{id}', 'update')->name('parentcontrol.update');
         Route::delete('/parent-control/{id}', 'destroy')->name('parentcontrol.destroy');
     });
-
-
-
-
 
 
     // video routes

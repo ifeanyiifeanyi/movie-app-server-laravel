@@ -4,7 +4,6 @@
 @section('title', 'Parental Controls')
 @section('adminlayout')
 
-<
 
 <div class="container-fluid py-4" style="height:100vh">
 
